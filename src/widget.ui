@@ -82,7 +82,7 @@
              </font>
             </property>
             <property name="text">
-             <string>windowTitle</string>
+             <string>           重复文件检测工具</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
