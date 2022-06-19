@@ -24,15 +24,21 @@ signals:
     void filesSignal(const QStringList &);
     void process(const int &, const int &);
     void duplicateFilesSignal(const QHash<QByteArray, QStringList> &);
+    void delActionFeedbackSignal(bool delFlag);
 
 public slots:
     void getFilesSlot(const QString & filesDirPath);
     void calMd5Slot(const QString &filePath);
+    void getTextSlot(const QString &);
+    void openDirSlot();
+    void delActionTriggeredSlot();
 
 private:
     QByteArray calMd5(const QString &filePath);
     QStringList getFiles(const QString &);
     QHash<QByteArray, QStringList> duplicateFiles;
+
+    QString currentText = "";
 
 };
 

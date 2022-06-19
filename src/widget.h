@@ -15,6 +15,7 @@
 #include <QDebug>
 #include <QThread>
 #include <QFileDialog>
+#include <QMenu>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -45,6 +46,7 @@ public slots:
     void processSlot(const int &, const int &);
     void duplicateFilesSlot(const QHash<QByteArray, QStringList> &);
     void currentTextChangedSlot(const QString &);
+    void delActionFeedbackSlot(bool flag);
 
 private slots:
     void btnMaxClickedSlot();
@@ -53,6 +55,8 @@ private slots:
     void calMd5ofFileSlot();
     void selectDirSlot();
 
+    void on_listWidget_customContextMenuRequested(const QPoint &pos);
+
 private:
     Ui::Widget *ui;
     DuplicateFiles * duplicateFiles;
@@ -60,6 +64,9 @@ private:
 
     QPoint mousePosInWindow = QPoint();
     QHash<QByteArray, QStringList> duplicateResults;
+
+    QAction *delAction;
+    QAction *openAction;
 
 
 };

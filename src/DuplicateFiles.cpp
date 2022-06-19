@@ -1,7 +1,9 @@
 //
 // Created by 12038 on 2022/6/16.
 //
+#include <QProcess>
 #include "DuplicateFiles.h"
+#include <QUrl>
 
 DuplicateFiles::DuplicateFiles(QObject *) {
 
@@ -71,5 +73,26 @@ QStringList DuplicateFiles::getFiles(const QString &filesDirPath) {
         }
     }
     return files;
+}
+
+void DuplicateFiles::getTextSlot(const QString &text) {
+    qDebug()<<"widget_2当前的text为："<< text;
+    currentText = text;
+}
+
+void DuplicateFiles::openDirSlot() {
+    QFileInfo fileInfo(currentText);
+    QString filePath = fileInfo.absolutePath();
+    qDebug()<<"filePath"<<filePath;
+    QString path = filePath.replace("/", "\\");
+    qDebug()<<"path"<<path;
+    QProcess::startDetached("explorer " + path);
+}
+
+void DuplicateFiles::delActionTriggeredSlot() {
+    QFile file(currentText);
+    qDebug()<<"即将删除："<<currentText;
+    emit delActionFeedbackSignal(file.remove());
+    qDebug()<<"删除成功";
 }
 

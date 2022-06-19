@@ -4,6 +4,7 @@
 
 // You may need to build the project (run Qt uic code generator) to get "ui_Widget.h" resolved
 
+#include <QProcess>
 #include "widget.h"
 #include "ui_widget.h"
 
@@ -61,6 +62,24 @@ Widget::Widget(QWidget *parent)
             this, SLOT(duplicateFilesSlot(const QHash<QByteArray, QStringList> &)));
     connect(ui->listWidget, SIGNAL(currentTextChanged(const QString &)),
             this, SLOT(currentTextChangedSlot(const QString &)));
+
+    connect(ui->listWidget_2, SIGNAL(customContextMenuRequested(const QPoint &)),
+            this, SLOT(on_listWidget_customContextMenuRequested(const QPoint &)));
+    ui->listWidget_2->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    delAction = new QAction();
+    delAction->setText("删除文件");
+    openAction = new QAction();
+    openAction->setText("打开文件目录");
+
+    connect(delAction, SIGNAL(triggered(bool)),
+            duplicateFiles, SLOT(delActionTriggeredSlot()));
+    connect(ui->listWidget_2, SIGNAL(currentTextChanged(const QString &)),
+            duplicateFiles, SLOT(getTextSlot(const QString &)));
+    connect(openAction, SIGNAL(triggered(bool)),
+            duplicateFiles, SLOT(openDirSlot()));
+    connect(duplicateFiles, SIGNAL(delActionFeedbackSignal(bool)),
+            this, SLOT(delActionFeedbackSlot(bool)));
 }
 
 Widget::~Widget()
@@ -68,6 +87,7 @@ Widget::~Widget()
     duplicateFiles->deleteLater();
     myThread->exit();
     myThread->wait(10 * 1000);
+
     delete ui;
 }
 
@@ -173,6 +193,38 @@ void Widget::duplicateFilesSlot(const QHash<QByteArray, QStringList> &duplicateF
 void Widget::currentTextChangedSlot(const QString &currentText) {
     ui->listWidget_2->clear();
     ui->listWidget_2->addItems(this->duplicateResults[currentText.toLocal8Bit()]);
+}
+
+void Widget::on_listWidget_customContextMenuRequested(const QPoint &pos)
+{
+//    ui->listWidget_2->currentTextChanged()
+    QMenu *menu = new QMenu(this);
+//    menu->addAction(ui->actionAdd);
+//    menu->addAction(ui->actionClear);
+//    menu->addAction(ui->actionDelete);
+//    menu->addAction(ui->actionInsert);
+    menu->addAction(this->delAction);
+    menu->addAction(this->openAction);
+    menu->addSeparator();
+
+//    menu->addAction(ui->actionInit);
+//    menu->addSeparator();
+//    menu->addAction(ui->actionSelAll);
+//    menu->addAction(ui->actionSelInv);
+//    menu->addAction(ui->actionSelNone);
+//    menu->addAction(ui->actionSelPopMenu);
+    menu->exec(QCursor::pos());
+    delete  menu;
+}
+
+void Widget::delActionFeedbackSlot(bool flag) {
+    if(flag){
+        qDebug()<<"remove item";
+        QListWidgetItem * item = ui->listWidget_2->currentItem();
+        qDebug()<<item;
+        ui->listWidget_2->removeItemWidget(item);
+        delete item;
+    }
 }
 
 
