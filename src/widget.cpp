@@ -87,7 +87,8 @@ Widget::~Widget()
     duplicateFiles->deleteLater();
     myThread->exit();
     myThread->wait(10 * 1000);
-
+    delAction->deleteLater();
+    openAction->deleteLater();
     delete ui;
 }
 
