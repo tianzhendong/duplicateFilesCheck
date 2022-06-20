@@ -1,5 +1,5 @@
 # 重复文件检测工具
-
+## demo
 ![](screenshoot/img.png)
 
 ![](screenshoot/demo.gif)
