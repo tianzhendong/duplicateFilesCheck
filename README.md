@@ -1,6 +1,6 @@
 # 重复文件检测工具
 ## demo
-![](screenshoot/img.png)
+![](screenshoot/img1.png)
 
 ![](screenshoot/demo.gif)
 
