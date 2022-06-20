@@ -1,12 +1,12 @@
 //
-// Created by 12038 on 2022/6/15.
+// Created by 12038 on 2022/6/20.
 //
 
-#ifndef DUPLICATEFILESCHECK_WIDGET_H
-#define DUPLICATEFILESCHECK_WIDGET_H
+#ifndef DUPLICATEFILESCHECK_MAINWINDOW_H
+#define DUPLICATEFILESCHECK_MAINWINDOW_H
 
+#include <QMainWindow>
 #include <QMouseEvent>
-#include <QWidget>
 #include <QPoint>
 #include <QGraphicsDropShadowEffect>
 #include <QMessageBox>
@@ -17,23 +17,21 @@
 #include <QFileDialog>
 #include <QMenu>
 
+
+
 QT_BEGIN_NAMESPACE
-namespace Ui { class Widget; }
+namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class Widget : public QWidget
-{
+class MainWindow : public QMainWindow {
 Q_OBJECT
 
 public:
-    Widget(QWidget *parent = nullptr);
-    ~Widget();
+    explicit MainWindow(QWidget *parent = nullptr);
+
+    ~MainWindow() override;
 
 protected:
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-
     void closeEvent(QCloseEvent *event);
 
 signals:
@@ -58,7 +56,7 @@ private slots:
     void on_listWidget_customContextMenuRequested(const QPoint &pos);
 
 private:
-    Ui::Widget *ui;
+    Ui::MainWindow *ui;
     DuplicateFiles * duplicateFiles;
     QThread *myThread;
 
@@ -67,9 +65,7 @@ private:
 
     QAction *delAction;
     QAction *openAction;
-
-
 };
 
 
-#endif //DUPLICATEFILESCHECK_WIDGET_H
+#endif //DUPLICATEFILESCHECK_MAINWINDOW_H

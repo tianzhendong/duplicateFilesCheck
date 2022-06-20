@@ -24,7 +24,7 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/resources DIR_RESOURCES_SRCS)
 aux_source_directory(${PROJECT_SOURCE_DIR}/src DIR_SRC_SRCS)
 
 # 添加qrc资源
-qt5_add_resources(QRC_FILES resources/img.qrc)
+#qt5_add_resources(QRC_FILES resources/img.qrc)
 #SOURCE_GROUP("Resource Files" FILES ${QRC_SOURCE_FILES})
 
 # 配置debug 和 release，release无cmd窗口

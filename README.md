@@ -1,8 +1,8 @@
 # 重复文件检测工具
 
-![](resources/img.png)
+![](screenshoot/img.png)
 
-![](resources/demo.gif)
+![](screenshoot/demo.gif)
 
 ## 环境
 - Clion 2022.1.2
@@ -14,9 +14,13 @@
 
 ## 下载
 
-[v1.0.2 windows release](https://github.com/tianzhendong/duplicateFilesCheck/releases/download/v1.0.2/duplicateFilesCheckv1.0.2.zip)
+[windowsRelease-v1.0.2](https://github.com/tianzhendong/duplicateFilesCheck/releases/download/v1.0.2/duplicateFilesCheckv1.0.2.zip)
+[windowsRelease-v1.0.3](https://github.com/tianzhendong/duplicateFilesCheck/releases/download/v1.0.3/duplicateFilesCheckv1.0.3.zip)
 
 ## 更新记录
 ### 20220619 v1.0.2
 - [x] 增加打开文件目录功能
 - [x] 增加删除文件功能
+
+### 20220620 v1.0.3
+- [x] 修改UI

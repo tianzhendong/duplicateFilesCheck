@@ -1,41 +1,17 @@
 //
-// Created by 12038 on 2022/6/15.
+// Created by 12038 on 2022/6/20.
 //
 
-// You may need to build the project (run Qt uic code generator) to get "ui_Widget.h" resolved
+// You may need to build the project (run Qt uic code generator) to get "ui_MainWindow.h" resolved
 
+#include "mainwindow.h"
+#include "ui_MainWindow.h"
 #include <QProcess>
-#include "widget.h"
-#include "ui_widget.h"
 
-Widget::Widget(QWidget *parent)
-        : QWidget(parent)
-        , ui(new Ui::Widget)
-{
+MainWindow::MainWindow(QWidget *parent) :
+        QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    //取消菜单栏
-    this->setWindowFlags(Qt::FramelessWindowHint);
-
-    //阴影边框效果
-    QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
-    shadow->setBlurRadius(10);
-    shadow->setColor(Qt::black);
-    shadow->setOffset(0);
-
-    ui->shadowWidget->setGraphicsEffect(shadow);
-
-    //父窗口透明
-    this->setAttribute(Qt::WA_TranslucentBackground);
-
-    //最大化最小化关闭功能实现
-    connect(ui->btnMax, SIGNAL(clicked()), this, SLOT(btnMaxClickedSlot()));
-    connect(ui->btnMin, SIGNAL(clicked()), this, SLOT(btnMinClickedSlot()));
-    connect(ui->btnClose, SIGNAL(clicked()), this, SLOT(btnCloseClickedSlot()));
-
-    ui->btnMin->setStyleSheet("border-image: url(:/png/min.png)");
-    ui->btnMax->setStyleSheet("border-image: url(:/png/fullscreen3.png)");
-    ui->btnClose->setStyleSheet("border-image: url(:/png/close.png)");
-
+    this->setWindowTitle("重复文件检测工具-byTianZD");
 
     duplicateFiles = new DuplicateFiles();
     myThread = new QThread();
@@ -80,10 +56,10 @@ Widget::Widget(QWidget *parent)
             duplicateFiles, SLOT(openDirSlot()));
     connect(duplicateFiles, SIGNAL(delActionFeedbackSignal(bool)),
             this, SLOT(delActionFeedbackSlot(bool)));
+
 }
 
-Widget::~Widget()
-{
+MainWindow::~MainWindow() {
     duplicateFiles->deleteLater();
     myThread->exit();
     myThread->wait(10 * 1000);
@@ -92,29 +68,7 @@ Widget::~Widget()
     delete ui;
 }
 
-void Widget::mousePressEvent(QMouseEvent *event)
-{
-//    QWidget::mousePressEvent(event);
-    QPoint mouseStartPoint = event->globalPos();
-    QPoint windowLeftTopPoint = this->geometry().topLeft();
-    this->mousePosInWindow = mouseStartPoint - windowLeftTopPoint;
-}
-
-void Widget::mouseMoveEvent(QMouseEvent *event)
-{
-//    QWidget::mouseMoveEvent(event);
-    if(this->mousePosInWindow == QPoint()) return;
-    QPoint mousePoint = event->globalPos();
-    QPoint windowLeftTopPoint = mousePoint - this->mousePosInWindow;
-    this->move(windowLeftTopPoint);
-}
-
-void Widget::mouseReleaseEvent(QMouseEvent *)
-{
-    this->mousePosInWindow = QPoint();
-}
-
-void Widget::closeEvent(QCloseEvent *event)
+void MainWindow::closeEvent(QCloseEvent *event)
 {
     QMessageBox::StandardButton button;
     button=QMessageBox::question(this,tr("退出程序"),QString(tr("确认退出程序?")),QMessageBox::Yes|QMessageBox::No);
@@ -128,32 +82,27 @@ void Widget::closeEvent(QCloseEvent *event)
     }
 }
 
-void Widget::btnMaxClickedSlot()
+void MainWindow::btnMaxClickedSlot()
 {
-    ui->btnMax->setStyleSheet("border-image: url(:/png/fullscreen4.png)");
     if(this->isMaximized()){
-        ui->layoutMain->setMargin(9);
-        ui->btnMax->setStyleSheet("border-image: url(:/png/fullscreen3.png)");
         this->showNormal();
     }
     else{
-        ui->layoutMain->setMargin(0);
-        ui->btnMax->setStyleSheet("border-image: url(:/png/fullscreen4.png)");
         this->showMaximized();
     }
 }
 
-void Widget::btnMinClickedSlot()
+void MainWindow::btnMinClickedSlot()
 {
     this->showMinimized();
 }
 
-void Widget::btnCloseClickedSlot()
+void MainWindow::btnCloseClickedSlot()
 {
     this->close();
 }
 
-void Widget::calMd5ofFileSlot() {
+void MainWindow::calMd5ofFileSlot() {
     QString path = QFileDialog::getOpenFileName(
             this, "选择文件",
             "./",
@@ -161,29 +110,29 @@ void Widget::calMd5ofFileSlot() {
     emit calFileMd5Signal(path);
 }
 
-void Widget::showFileMd5Slot(const QByteArray & md5) {
+void MainWindow::showFileMd5Slot(const QByteArray & md5) {
     ui->leMd5Show->setText("");
     ui->leMd5Show->setText(md5);
 }
 
-void Widget::selectDirSlot() {
+void MainWindow::selectDirSlot() {
     ui->progressBar->setValue(0);
     QString dirPathUrl = QFileDialog::getExistingDirectory(this, "选择文件夹", "./");
     ui->lineDIrShow->setText(dirPathUrl);
     emit getFilesSignal(dirPathUrl);
 }
 
-void Widget::filesSlot(const QStringList &files) {
+void MainWindow::filesSlot(const QStringList &files) {
     ui->listWidget_2->clear();
     ui->listWidget_2->addItems(files);
 }
 
-void Widget::processSlot(const int &now, const int &total) {
+void MainWindow::processSlot(const int &now, const int &total) {
     ui->progressBar->setMaximum(total);
     ui->progressBar->setValue(now);
 }
 
-void Widget::duplicateFilesSlot(const QHash<QByteArray, QStringList> &duplicateFiles) {
+void MainWindow::duplicateFilesSlot(const QHash<QByteArray, QStringList> &duplicateFiles) {
     ui->listWidget->clear();
     this->duplicateResults = duplicateFiles;
     for(QHash<QByteArray, QStringList>::const_iterator itr = duplicateFiles.begin(); itr != duplicateFiles.end(); itr++){
@@ -191,12 +140,12 @@ void Widget::duplicateFilesSlot(const QHash<QByteArray, QStringList> &duplicateF
     }
 }
 
-void Widget::currentTextChangedSlot(const QString &currentText) {
+void MainWindow::currentTextChangedSlot(const QString &currentText) {
     ui->listWidget_2->clear();
     ui->listWidget_2->addItems(this->duplicateResults[currentText.toLocal8Bit()]);
 }
 
-void Widget::on_listWidget_customContextMenuRequested(const QPoint &pos)
+void MainWindow::on_listWidget_customContextMenuRequested(const QPoint &pos)
 {
 //    ui->listWidget_2->currentTextChanged()
     QMenu *menu = new QMenu(this);
@@ -218,7 +167,7 @@ void Widget::on_listWidget_customContextMenuRequested(const QPoint &pos)
     delete  menu;
 }
 
-void Widget::delActionFeedbackSlot(bool flag) {
+void MainWindow::delActionFeedbackSlot(bool flag) {
     if(flag){
         qDebug()<<"remove item";
         QListWidgetItem * item = ui->listWidget_2->currentItem();
@@ -227,5 +176,3 @@ void Widget::delActionFeedbackSlot(bool flag) {
         delete item;
     }
 }
-
-
