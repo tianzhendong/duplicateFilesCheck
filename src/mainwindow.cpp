@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(duplicateFiles, SIGNAL(destroyed(QObject *)),
             myThread, SLOT(deleteLater()));
 
-//    ui->labelTitle->setText("文件一致性检测工具");
     connect(ui->btnSelectFile, SIGNAL(clicked(bool)), this, SLOT(calMd5ofFileSlot()));
     connect(ui->btnSelectDir, SIGNAL(clicked(bool)), this, SLOT(selectDirSlot()));
     connect(this, SIGNAL(calFileMd5Signal(const QString &)),
