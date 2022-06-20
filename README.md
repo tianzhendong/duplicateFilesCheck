@@ -14,6 +14,7 @@
 
 ## 下载
 
+[v1.0.2 windows release](https://github.com/tianzhendong/duplicateFilesCheck/releases/download/v1.0.2/duplicateFilesCheckv1.0.2.zip)
 
 ## 更新记录
 ### 20220619 v1.0.2
