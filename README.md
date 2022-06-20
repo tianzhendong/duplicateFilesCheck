@@ -13,9 +13,10 @@
 - 文件夹内重复文件检测
 
 ## 下载
-
+### windows
 [windowsRelease-v1.0.2](https://github.com/tianzhendong/duplicateFilesCheck/releases/download/v1.0.2/duplicateFilesCheckv1.0.2.zip)
-[windowsRelease-v1.0.3](https://github.com/tianzhendong/duplicateFilesCheck/releases/download/v1.0.3/duplicateFilesCheckv1.0.3.zip)
+
+[windowsRelease-v1.0.3](https://github.com/tianzhendong/duplicateFilesCheck/releases/download/v1.0.3/windowsRelease-v1.0.3.zip)
 
 ## 更新记录
 ### 20220619 v1.0.2
