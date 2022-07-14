@@ -11,7 +11,7 @@ set(CMAKE_AUTOUIC ON)
 # qrc
 #set(QRC_SOURCE_FILES img.qrc)
 # 设置
-set(CMAKE_PREFIX_PATH "C:/Qt/Qt5.14.2/5.14.2/mingw73_64")
+set(CMAKE_PREFIX_PATH "/home/tian/Qt5.12.9/5.12.9/gcc_64")
 # 添加用到的qt库
 find_package(Qt5 COMPONENTS
         Core
